@@ -49,7 +49,8 @@ def gost_stream_cipher(data, key):
     keys = [(key >> (32 * i)) & 0xFFFFFFFF for i in range(8)]
     stream = b""
     count = 0
-
+    while len(data) % 8 != 0:
+            data += b'\x00'
     for i in range(0, len(data), 8):
         # Генерируем блок шифра
         keystream_block = encrypt_block(count, keys)
@@ -83,7 +84,7 @@ def decrypt_gost_stream():
             key = int(key, 36)
             data = bytes.fromhex(text)
             decrypted = gost_stream_cipher(data, key)
-            decrypted_text = decrypted.decode('utf-8')
+            decrypted_text = decrypted.decode('utf-8').rstrip('\x00')
 
             result_text.delete(1.0, tk.END)
             result_text.insert(tk.END, f"Расшифрованный текст: {decrypted_text}")
