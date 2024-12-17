@@ -66,7 +66,7 @@ def encrypt_gost_stream():
     text = plaintext_entry.get()
     key = key_entry.get()
     if text and key:
-            key = int(key, 16)
+            key = int(key, 36)
             data = text.encode('utf-8')
             encrypted = gost_stream_cipher(data, key)
             encrypted_hex = encrypted.hex()
@@ -80,7 +80,7 @@ def decrypt_gost_stream():
     text = ciphertext_entry.get()
     key = key_entry.get()
     if text and key:
-            key = int(key, 16)
+            key = int(key, 36)
             data = bytes.fromhex(text)
             decrypted = gost_stream_cipher(data, key)
             decrypted_text = decrypted.decode('utf-8')
